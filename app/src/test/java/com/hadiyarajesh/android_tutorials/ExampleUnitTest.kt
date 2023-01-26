@@ -1,4 +1,4 @@
-package com.hadiyarajesh.composetemplate
+package com.hadiyarajesh.android_tutorials
 
 import org.junit.Test
 

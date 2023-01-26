@@ -1,4 +1,4 @@
-package com.hadiyarajesh.composetemplate.ui.theme
+package com.hadiyarajesh.android_tutorials.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
