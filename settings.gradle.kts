@@ -14,3 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AndroidTutorials"
 include(":app")
+include(":pre-populate-room-db")

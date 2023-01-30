@@ -1,4 +1,4 @@
-package com.hadiyarajesh.android_tutorials
+package com.hadiyarajesh.pre_populate_room_db
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
