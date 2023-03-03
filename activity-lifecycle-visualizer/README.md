@@ -2,6 +2,8 @@
 
 This Android app provides a visual preview of the different lifecycle states that an Android app goes through, including `onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, `onDestroy`. With this app, you can understand how your app transitions between different states during runtime and optimize its performance accordingly. 
 
+[Watch the demo](https://youtube.com/shorts/rYepii9e_Bc)
+
 ## Features
 - Visual preview of app lifecycle states
 - Toast messages indicating current state
