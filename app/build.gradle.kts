@@ -40,7 +40,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = LibVersion.composeCompilerVersion
+        kotlinCompilerExtensionVersion = "${rootProject.extra["composeCompilerVersion"]}"
     }
     packagingOptions {
         resources {
@@ -49,13 +49,8 @@ android {
     }
 }
 
-object LibVersion {
-    const val composeVersion = "2023.01.00"
-    const val composeCompilerVersion = "1.4.0"
-}
-
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:${LibVersion.composeVersion}")
+    val composeBom = platform("androidx.compose:compose-bom:${rootProject.extra["composeVersion"]}")
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.activity:activity-compose:1.6.1")
@@ -73,9 +68,4 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     // Android Studio Preview support
     debugImplementation("androidx.compose.ui:ui-tooling")
-}
-
-// To create Kapt-generated stubs for JDK 17.
-tasks.withType<org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask>().configureEach {
-    kotlinOptions.jvmTarget = "17"
 }
