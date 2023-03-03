@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Android tutorials</string>
-    <string name="welcome_message">Welcome to Android tutorials</string>
-    <string name="app_info_message">This app serves as a container for all Android tutorials. You might want to run a specific module for each tutorial that interests you.</string>
-</resources>
