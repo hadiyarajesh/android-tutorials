@@ -3,11 +3,18 @@ package com.hadiyarajesh.activity_lifecycle_visualizer.utility
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.hadiyarajesh.activity_lifecycle_visualizer.DialogActivity
 
+const val TAG = "ActivityLifecycleVisualizer"
+
 fun Context.showToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+}
+
+fun debugLog(msg: String, tr: Throwable? = null) {
+    Log.d(TAG, msg, tr)
 }
 
 fun startDialogActivity(context: Context) {
