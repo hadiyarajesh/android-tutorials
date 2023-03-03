@@ -16,6 +16,3 @@ This Android app provides a visual preview of the different lifecycle states tha
 
 ## Contributions
 Contributions are welcome! If you find a bug or have an idea for a new feature, please open an issue or submit a pull request.
-
-## License
-This project is licensed under the MIT License.
