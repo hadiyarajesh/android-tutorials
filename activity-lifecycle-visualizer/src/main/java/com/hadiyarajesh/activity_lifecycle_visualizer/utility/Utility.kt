@@ -1,16 +1,18 @@
 package com.hadiyarajesh.activity_lifecycle_visualizer.utility
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.hadiyarajesh.activity_lifecycle_visualizer.DialogActivity
+import com.hadiyarajesh.activity_lifecycle_visualizer.R
 
 const val TAG = "ActivityLifecycleVisualizer"
 
 fun Context.showToast(text: String) {
-    Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
 
 fun debugLog(msg: String, tr: Throwable? = null) {
@@ -22,15 +24,11 @@ fun startDialogActivity(context: Context) {
     context.startActivity(intent)
 }
 
-fun selectImage(context: Context) {
-    val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-        type = "image/*"
-    }
-
-    if (intent.resolveActivity(context.packageManager) != null) {
-        context.startActivity(intent)
-    } else {
-        Toast.makeText(context, "No app found to get image content", Toast.LENGTH_SHORT).show()
+fun startSettingsActivity(context: Context) {
+    try {
+        context.startActivity(Intent(android.provider.Settings.ACTION_SETTINGS))
+    } catch (e: ActivityNotFoundException) {
+        debugLog(context.getString(R.string.failed_to_start_settings_activity))
     }
 }
 

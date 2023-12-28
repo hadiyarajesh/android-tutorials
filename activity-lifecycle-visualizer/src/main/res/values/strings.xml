@@ -6,7 +6,8 @@
     <string name="trigger_on_pause_message">This button will start a new Dialog activity, and will trigger onPause lifecycle state because the caller Activity UI will be visible in the background.</string>
 
     <string name="trigger_on_stop">Trigger onStop method</string>
-    <string name="trigger_on_stop_message">This button will start a new System image picker, and will trigger onPause and onStop lifecycle state respectively, because the caller Activity UI won\'t be visible in the background.</string>
+    <string name="trigger_on_stop_message">This button will start a new Settings Activity, and will trigger onPause and onStop lifecycle state respectively, because the caller Activity UI won\'t be visible in the background.</string>
+    <string name="failed_to_start_settings_activity">Failed to start Settings Activity</string>
 
     <string name="trigger_on_destroy">Trigger onDestroy method</string>
     <string name="trigger_on_destroy_message">This button will destroy the caller Activity, and it will trigger onPause, onStop and onDestroy lifecycle state respectively. Most likely, you will not see the toast for onDestroy state because Activity has been destroyed and toast cannot be displayed.</string>

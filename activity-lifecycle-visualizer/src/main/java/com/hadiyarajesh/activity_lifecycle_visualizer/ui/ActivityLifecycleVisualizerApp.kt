@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.hadiyarajesh.activity_lifecycle_visualizer.R
 import com.hadiyarajesh.activity_lifecycle_visualizer.ui.theme.ActivityLifecycleVisualizerTheme
 import com.hadiyarajesh.activity_lifecycle_visualizer.utility.destroyActivity
-import com.hadiyarajesh.activity_lifecycle_visualizer.utility.selectImage
+import com.hadiyarajesh.activity_lifecycle_visualizer.utility.startSettingsActivity
 import com.hadiyarajesh.activity_lifecycle_visualizer.utility.startDialogActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +54,7 @@ fun ActivityLifecycleVisualizerApp() {
                     ButtonAndInfoView(
                         modifier = Modifier.fillMaxWidth(),
                         buttonText = stringResource(R.string.trigger_on_stop),
-                        onButtonClick = { selectImage(context) },
+                        onButtonClick = { startSettingsActivity(context) },
                         onInfoClick = {
                             tooltipState.value = true
                             tooltipText.value =

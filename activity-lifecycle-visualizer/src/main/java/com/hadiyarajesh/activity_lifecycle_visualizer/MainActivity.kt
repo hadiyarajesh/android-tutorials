@@ -43,6 +43,12 @@ class MainActivity : ComponentActivity() {
         showToast(Throwable().stackTrace[0].methodName)
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        debugLog(Throwable().stackTrace[0].methodName)
+        showToast(Throwable().stackTrace[0].methodName)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         debugLog(Throwable().stackTrace[0].methodName)
