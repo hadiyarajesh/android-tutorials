@@ -11,5 +11,5 @@ import com.hadiyarajesh.pre_populate_room_db.database.entity.User
     entities = [User::class]
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract val userDao: UserDao
+    abstract fun getUserDao(): UserDao
 }

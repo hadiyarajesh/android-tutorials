@@ -1,34 +1,25 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    kotlin("kapt")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hiltAndroid)
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "com.hadiyarajesh.pre_populate_room_db"
-    compileSdk = 33
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.hadiyarajesh.pre_populate_room_db"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
-        }
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true",
-                    "room.expandProjection" to "true"
-                )
-            }
         }
     }
 
@@ -51,50 +42,40 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "${rootProject.extra["composeCompilerVersion"]}"
-    }
-    packagingOptions {
+    packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += setOf("/META-INF/{AL2.0,LGPL2.1}")
         }
     }
 }
 
-object LibVersion {
-    const val roomVersion = "2.5.0"
-}
-
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:${rootProject.extra["composeVersion"]}")
+    implementation(libs.core.ktx)
+    implementation(libs.activity.compose)
+    implementation(libs.bundles.lifecycle)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose.ui.impl)
+//    implementation(libs.material3)
+    implementation("androidx.compose.material3:material3:1.0.0")
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.activity:activity-compose:1.6.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-rc01")
-    implementation(composeBom)
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    ksp(libs.hilt.android.compiler)
 
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("com.google.dagger:hilt-android:${rootProject.extra["hiltVersion"]}")
-    kapt("com.google.dagger:hilt-android-compiler:${rootProject.extra["hiltVersion"]}")
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
 
-    implementation("androidx.room:room-ktx:${LibVersion.roomVersion}")
-    kapt("androidx.room:room-compiler:${LibVersion.roomVersion}")
-
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(composeBom)
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.bundles.compose.ui.debug)
 }
 
-// To create Kapt-generated stubs for JDK 17.
-tasks.withType<org.jetbrains.kotlin.gradle.internal.KaptGenerateStubsTask>().configureEach {
-    kotlinOptions.jvmTarget = "17"
+// Pass options to Room ksp processor
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
+    arg("room.generateKotlin", "true")
 }
