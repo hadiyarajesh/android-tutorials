@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidTutorials"
 include(":pre-populate-room-db")
 include(":activity-lifecycle-visualizer")
+include(":compose-in-viewmodel")
