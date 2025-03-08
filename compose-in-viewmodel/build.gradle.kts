@@ -35,6 +35,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+        freeCompilerArgs += listOf("-Xcontext-receivers")
     }
     buildFeatures {
         compose = true
@@ -54,6 +55,10 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     implementation(libs.bundles.coil)
+
+    implementation(libs.molecule.runtime) {
+        because("Molecule allows to build a StateFlow stream using Jetpack Compose")
+    }
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
