@@ -1,5 +1,10 @@
 package com.hadiyarajesh.compose_in_viewmodel.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -23,6 +28,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,7 +75,8 @@ fun WallpaperScreen(
                     WallpaperList(
                         modifier = Modifier.fillMaxSize(),
                         wallpapers = wallpapers,
-                        onDeleteClick = { wallpaper ->
+                        onDeleteClick = { index ->
+                            viewModel.removeWallpaper(index)
                         }
                     )
                 }
@@ -89,22 +98,25 @@ fun WallpaperScreen(
 fun WallpaperList(
     modifier: Modifier = Modifier,
     wallpapers: List<Wallpaper>,
-    onDeleteClick: (Wallpaper) -> Unit
+    onDeleteClick: (index: Int) -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Adaptive(150.dp),
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
     ) {
-        items(wallpapers) { wallpaper ->
+        itemsIndexed(
+            items = wallpapers,
+            key = { index, wallpaper -> wallpaper.id }
+        ) { index, wallpaper ->
             WallpaperItem(
                 modifier = Modifier
                     .size(150.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 wallpaper = wallpaper,
-                onDeleteClick = onDeleteClick
+                onDeleteClick = { onDeleteClick(index) }
             )
         }
     }
@@ -116,30 +128,37 @@ private fun WallpaperItem(
     wallpaper: Wallpaper,
     onDeleteClick: (Wallpaper) -> Unit
 ) {
+    var wallpaperLoaded by remember { mutableStateOf(false) }
+
     Box(modifier = modifier) {
         AsyncImage(
             modifier = Modifier.fillMaxSize(),
             model = wallpaper.url,
             placeholder = painterResource(id = R.drawable.placeholder),
             contentDescription = wallpaper.title,
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            onSuccess = { wallpaperLoaded = true }
         )
 
-        IconButton(
+        AnimatedVisibility(
             modifier = Modifier.align(Alignment.TopEnd),
-            onClick = { onDeleteClick(wallpaper) }
+            enter = fadeIn() + slideInHorizontally { it },
+            exit = fadeOut() + slideOutHorizontally { it },
+            visible = wallpaperLoaded
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.3f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete",
-                    tint = Color.White
-                )
+            IconButton(onClick = { onDeleteClick(wallpaper) }) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.3f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete",
+                        tint = Color.White
+                    )
+                }
             }
         }
     }
